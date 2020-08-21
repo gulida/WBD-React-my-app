@@ -1,36 +1,65 @@
 import React, {Component} from 'react';
-import Menu from "./Afcomponent";
 
 export default class Ccomponent extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            name: 'Alex'
+            visibility: false,
+            count: 0
         }
+
+        this.handleClick = this.handleClick.bind(this)
+        this.handleIncrement = this.handleIncrement.bind(this)
+        this.handleDecrement = this.handleDecrement.bind(this)
+        this.handleToZero = this.handleToZero.bind(this)
+    }
+
+    handleClick () {
+        this.setState(state => ({
+            visibility: !state.visibility
+        }))
+    }
+
+    handleIncrement () {
+        this.setState(state => ({
+            count: state.count++
+        }))
+    }
+    handleDecrement (){
+        this.setState(state => ({
+            count: state.count--
+        }))
+    }
+
+    handleToZero () {
+        this.setState({
+            count: 0
+        })
     }
     render() {
-        const name = this.props.name.map((fname) =>
-            <li>{fname}</li>
-        );
-
-        const dName = this.props.defaultName.map((fname) =>
-            <li>{fname}</li>
-        );
-
-        const stateName = this.state.name
-
         return (
             <div>
-                <h1><Menu/></h1>
-                <h3>State: {stateName}</h3>
-                <h2>Props: </h2>
-                <ul>{name}</ul>
-
-                <h2>Default Name: </h2>
-                <ol>{dName}</ol>
+                <h1>Current: {this.state.count}</h1>
+                <button onClick={this.handleIncrement}>Increment</button>
+                <button onClick={this.handleDecrement}>Decrement</button>
+                <button onClick={this.handleToZero}>To zero</button>
             </div>
-        );
+        )
+        /*if (this.state.visibility){
+            return (
+                <div>
+                    <h3>Now you see me!</h3>
+                    <button onClick={this.handleClick}>Click</button>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <button onClick={this.handleClick}>Click</button>
+                </div>
+            );
+        }*/
     }
 }
 
