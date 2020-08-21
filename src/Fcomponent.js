@@ -1,10 +1,21 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-export default function Fcomponent(props){
+class Fcomponent extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            name: 'Button pressed!'
+        }
+    }
+    render() {
         return (
             <div>
-                <h1>Fcomponents: Hello, {props.name}</h1>
+                <button onClick={() => this.props.updateName(this.state.name)}>Press</button>
             </div>
         );
+    }
 }
+
+export default Fcomponent;
 

@@ -1,50 +1,28 @@
-import React, {Component, useLayoutEffect} from 'react';
+import React, {Component} from 'react';
+import Fcomponent from "./Fcomponent";
 
 export default class Ccomponent extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            input: '',
-            items: []
+            name: 'Button not pressed!'
         }
 
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-
+        this.updateData = this.updateData.bind(this)
     }
 
-    handleSubmit(event) {
-        event.preventDefault()
+    updateData = (value) => {
         this.setState({
-                input: this.state.input,
-                items: [...this.state.items, this.state.input]
-            }
-        )
-    }
-
-    handleChange (event) {
-        this.setState({
-            input: event.target.value
+            name: value
         })
     }
 
     render() {
         return (
             <div>
-                <form onSubmit={this.handleSubmit}>
-                    <input value={this.state.input} type="text" onChange={this.handleChange}/>
-                    <button type="submit">Submit</button>
-                </form>
-
-                <ul>
-                    {this.state.items.map((item, index) => (
-                        <li key={index}>{item}</li>
-                    ))}
-                </ul>
-
-                {/*<input type="text" onChange={this.handleChange}/>
-                <h1>{this.state.input}</h1>*/}
+                <h1>{this.state.name}</h1>
+                <Fcomponent updateName={this.updateData} />
             </div>
         )
     }
