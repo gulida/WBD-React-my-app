@@ -1,68 +1,51 @@
-import React, {Component} from 'react';
+import React, {Component, useLayoutEffect} from 'react';
 
 export default class Ccomponent extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            visibility: false,
-            count: 0
+            input: '',
+            items: []
         }
 
-        this.handleClick = this.handleClick.bind(this)
-        this.handleIncrement = this.handleIncrement.bind(this)
-        this.handleDecrement = this.handleDecrement.bind(this)
-        this.handleToZero = this.handleToZero.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+
     }
 
-    handleClick () {
-        this.setState(state => ({
-            visibility: !state.visibility
-        }))
-    }
-
-    handleIncrement () {
-        this.setState(state => ({
-            count: state.count++
-        }))
-    }
-    handleDecrement (){
-        this.setState(state => ({
-            count: state.count--
-        }))
-    }
-
-    handleToZero () {
+    handleSubmit(event) {
+        event.preventDefault()
         this.setState({
-            count: 0
+                input: this.state.input,
+                items: [...this.state.items, this.state.input]
+            }
+        )
+    }
+
+    handleChange (event) {
+        this.setState({
+            input: event.target.value
         })
     }
+
     render() {
         return (
             <div>
-                <h1>Current: {this.state.count}</h1>
-                <button onClick={this.handleIncrement}>Increment</button>
-                <button onClick={this.handleDecrement}>Decrement</button>
-                <button onClick={this.handleToZero}>To zero</button>
+                <form onSubmit={this.handleSubmit}>
+                    <input value={this.state.input} type="text" onChange={this.handleChange}/>
+                    <button type="submit">Submit</button>
+                </form>
+
+                <ul>
+                    {this.state.items.map((item, index) => (
+                        <li key={index}>{item}</li>
+                    ))}
+                </ul>
+
+                {/*<input type="text" onChange={this.handleChange}/>
+                <h1>{this.state.input}</h1>*/}
             </div>
         )
-        /*if (this.state.visibility){
-            return (
-                <div>
-                    <h3>Now you see me!</h3>
-                    <button onClick={this.handleClick}>Click</button>
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    <button onClick={this.handleClick}>Click</button>
-                </div>
-            );
-        }*/
     }
-}
-
-Ccomponent.defaultProps = {
-    defaultName: ['Alexey', 'Anna', 'Julia']
 }
