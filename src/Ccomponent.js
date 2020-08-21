@@ -6,24 +6,49 @@ export default class Ccomponent extends Component {
         super(props);
 
         this.state = {
-            name: 'Button not pressed!'
+            error: null,
+            isLoaded: false,
+            items: []
         }
-
-        this.updateData = this.updateData.bind(this)
     }
 
-    updateData = (value) => {
-        this.setState({
-            name: value
-        })
+    componentDidMount() {
+        fetch("https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=Cocktail")
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        isLoaded: true,
+                        items: result.drinks
+                    })
+                },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error: error
+                    })
+                }
+            )
     }
+
 
     render() {
-        return (
-            <div>
-                <h1>{this.state.name}</h1>
-                <Fcomponent updateName={this.updateData} />
-            </div>
-        )
+        const  {error, isLoaded, items} = this.state
+        if (error) {
+            return <p>Error: {error.message}</p>
+        } else if (!isLoaded) {
+            return <p> Loading... </p>
+        } else {
+            return (
+                <ul>
+                    {items.map((item) => (
+                        <div>
+                            <li key={item.idDrink}>{item.strDrink}</li>
+                            <img width="50" height="50" src={item.strDrinkThumb} />
+                        </div>
+                    ))}
+                </ul>
+            )
+        }
     }
 }
